@@ -6,7 +6,6 @@ import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.RectF;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v7.widget.ActionMenuView;
@@ -114,6 +113,9 @@ public class Main2Activity extends BaseActivity implements View.OnClickListener 
             }
         });
 
+
+        fragment=Shezhi_Fragment.newinitFragm(getWindow());
+
         //设置PopupWindow
         initpopup();
 
@@ -126,23 +128,6 @@ public class Main2Activity extends BaseActivity implements View.OnClickListener 
 
     //设置PopupWindow
     private void initpopup() {
-        View popupView = getLayoutInflater().inflate(R.layout.cela, null);
-
-        mPopupWindow = new PopupWindow(popupView,  ActionMenuView.LayoutParams.MATCH_PARENT, ActionMenuView.LayoutParams.MATCH_PARENT, true);
-        //设置背景,这个没什么效果，不添加会报错
-        mPopupWindow.setBackgroundDrawable(new BitmapDrawable());
-        mPopupWindow.setTouchable(true);
-        //在PopupWindow里面就加上下面代码，让键盘弹出时，不会挡住pop窗口。
-        mPopupWindow.setInputMethodMode(PopupWindow.INPUT_METHOD_NEEDED);
-        //设置点击弹窗外隐藏自身
-        mPopupWindow.setFocusable(true);
-        mPopupWindow.setOutsideTouchable(true);
-        mPopupWindow.getContentView().setFocusableInTouchMode(true);
-        //添加pop窗口关闭事件
-        mPopupWindow.setOnDismissListener(new poponDismissListener());
-
-        fragment=Shezhi_Fragment.newinitFragm(mPopupWindow,getWindow(),popupView);
-
 
         View popupView1 = getLayoutInflater().inflate(R.layout.tow_er_weima, null);
         mPopupWindow = new PopupWindow(popupView1,  ActionMenuView.LayoutParams.MATCH_PARENT, ActionMenuView.LayoutParams.MATCH_PARENT, true);

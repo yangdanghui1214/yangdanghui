@@ -1,6 +1,7 @@
 package baidu_ditu1.lenovo.example.com.awdawdas.dtanfgtiaxia.ui;
 
 
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -8,13 +9,12 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.Button;
-import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,6 +25,7 @@ import java.io.IOException;
 
 import baidu_ditu1.lenovo.example.com.awdawdas.dtanfgtiaxia.Main2Activity;
 import baidu_ditu1.lenovo.example.com.awdawdas.dtanfgtiaxia.R;
+import baidu_ditu1.lenovo.example.com.awdawdas.dtanfgtiaxia.popupWindow.SelectPicPopupWindow;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -37,27 +38,24 @@ import static android.app.Activity.RESULT_OK;
  */
 public class Shezhi_Fragment extends Fragment {
 
-    private View view,view1;
+    private View view;
     @BindView(R.id.shezhi_text1_toxiang)
     TextView tx;
-    private PopupWindow popupWindow;
     Window window;
-    Button butt,butt1,butt2;
 
 
 
 
     private Bitmap head;//头像Bitmap
     private static String path="/sdcard/myHead/";//sd路径
+    private SelectPicPopupWindow selectPicPopupWindow;
 
-    private Shezhi_Fragment(PopupWindow popupWindow, Window window,View popupView1) {
-        this.popupWindow= popupWindow;
+    private Shezhi_Fragment(Window window) {
         this.window=window;
-        view1=popupView1;
     }
 
-    public static Shezhi_Fragment newinitFragm(PopupWindow popupWindow, Window window,View popupView1) {
-        Shezhi_Fragment fragment=new Shezhi_Fragment(  popupWindow,window,popupView1);
+    public static Shezhi_Fragment newinitFragm( Window window) {
+        Shezhi_Fragment fragment=new Shezhi_Fragment( window);
         return fragment;
     }
 
@@ -68,40 +66,6 @@ public class Shezhi_Fragment extends Fragment {
         // Inflate the layout for this fragment
         view=inflater.inflate(R.layout.fragment_shezhi_, container, false);
         ButterKnife.bind(this,view);
-
-        butt= (Button) view1.findViewById(R.id.cela_button_puxiao);
-        butt1= (Button) view1.findViewById(R.id.cela_button_zhaoxiang);
-        butt2= (Button) view1.findViewById(R.id.cela_button_xiangce);
-        butt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                popupWindow.dismiss();
-            }
-        });
-        butt1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                String state = Environment.getExternalStorageState(); //拿到sdcard是否可用的状态码
-                if (state.equals(Environment.MEDIA_MOUNTED)){   //如果可用
-
-                    Intent intent2 = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                    intent2.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(new File(Environment.getExternalStorageDirectory(), "heada.jpg")));
-                    startActivityForResult(intent2, 2);//采用ForResult打开
-                }else {
-                    Toast.makeText(getContext(),"sdcard不可用",Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
-        butt2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent1 = new Intent(Intent.ACTION_PICK, null);
-                intent1.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*");
-                startActivityForResult(intent1, 1);
-            }
-        });
-
 
         return view;
 
@@ -114,15 +78,11 @@ public class Shezhi_Fragment extends Fragment {
         Intent intent;
         switch (v.getId()){
             case R.id.shezhi_text1_toxiang:
-                //头像
-                if(popupWindow!=null&&popupWindow.isShowing()){
-                    popupWindow.dismiss();
-                    setBackgroundAlpha(0.5f);
-                }else if(popupWindow!=null){
-                    //指定显示的位置
-                    popupWindow.showAsDropDown(tx,0,480);
-                    setBackgroundAlpha(0.5f);
-                }
+
+                 selectPicPopupWindow=new SelectPicPopupWindow((Activity) view.getContext(),itemsOnClick);
+                selectPicPopupWindow.showAtLocation(((Activity) view.getContext()).findViewById(R.id.activity_main2), Gravity.BOTTOM|Gravity.CENTER_HORIZONTAL, 0, 0);
+                setBackgroundAlpha(0.5f);
+
 
                 break;
             case R.id.shezhi_text2_zhanghao:
@@ -163,6 +123,44 @@ public class Shezhi_Fragment extends Fragment {
 
     }
 
+
+    private View.OnClickListener itemsOnClick = new View.OnClickListener(){
+        @Override
+        public void onClick(View v) {
+            switch(v.getId()){
+                case R.id.cela_button_zhaoxiang:
+
+                    String state = Environment.getExternalStorageState(); //拿到sdcard是否可用的状态码
+                    if (state.equals(Environment.MEDIA_MOUNTED)){   //如果可用
+
+                        Intent intent2 = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                        intent2.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(new File(Environment.getExternalStorageDirectory(), "heada.jpg")));
+                        startActivityForResult(intent2, 2);//采用ForResult打开
+                    }else {
+                        Toast.makeText(getContext(),"sdcard不可用",Toast.LENGTH_SHORT).show();
+                    }
+
+                    selectPicPopupWindow.dismiss();
+                    setBackgroundAlpha(0.5f);
+                    break;
+                case R.id.cela_button_xiangce:
+
+                    Intent intent1 = new Intent(Intent.ACTION_PICK, null);
+                    intent1.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*");
+                    startActivityForResult(intent1, 1);
+
+                    selectPicPopupWindow.dismiss();
+                    setBackgroundAlpha(0.5f);
+                    break;
+                case R.id.cela_button_puxiao:
+                    selectPicPopupWindow.dismiss();
+                    setBackgroundAlpha(0.5f);
+                    break;
+            }
+
+        }
+
+    };
 
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {

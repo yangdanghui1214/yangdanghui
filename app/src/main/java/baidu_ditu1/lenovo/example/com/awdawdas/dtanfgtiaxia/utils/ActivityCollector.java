@@ -30,13 +30,5 @@ public class ActivityCollector {
         }
     }
 
-    public static void finishone() {
-        for (Activity activity : activities) {
-            if (!activity.isFinishing()) {
-//                if (activity )
-                activity.finish();
-            }
-        }
-    }
 
 }

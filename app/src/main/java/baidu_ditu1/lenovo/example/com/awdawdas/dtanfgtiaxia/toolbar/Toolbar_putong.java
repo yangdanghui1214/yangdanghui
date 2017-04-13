@@ -53,8 +53,8 @@ public class Toolbar_putong extends Toolbar {
             //读写自定义的属性，如果不会自己写的时候，就看看官方文档是怎么写的哈
             /**
              * 下面是摘自官方文档
-             * final TintTypedArray a = TintTypedArray.obtainStyledAttributes(getContext(), attrs,
-             R.styleable.Toolbar, defStyleAttr, 0);
+             *
+             final TintTypedArray a = TintTypedArray.obtainStyledAttributes(getContext(), attrs,R.styleable.Toolbar, defStyleAttr, 0);
 
              mTitleTextAppearance = a.getResourceId(R.styleable.Toolbar_titleTextAppearance, 0);
              mSubtitleTextAppearance = a.getResourceId(R.styleable.Toolbar_subtitleTextAppearance, 0);
@@ -161,9 +161,6 @@ public class Toolbar_putong extends Toolbar {
         if (mTextTitle != null)
             mTextTitle.setVisibility(VISIBLE);
     }
-
-
-
 
 
     //给左侧按钮设置图片，也可以在布局文件中直接引入
