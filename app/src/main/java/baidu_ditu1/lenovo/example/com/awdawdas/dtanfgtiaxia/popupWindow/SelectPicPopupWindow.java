@@ -2,6 +2,7 @@ package baidu_ditu1.lenovo.example.com.awdawdas.dtanfgtiaxia.popupWindow;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.drawable.ColorDrawable;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -11,7 +12,8 @@ import android.widget.PopupWindow;
 
 import baidu_ditu1.lenovo.example.com.awdawdas.dtanfgtiaxia.R;
 
-/**
+/**]
+ * 自定义 PopupWindow  从底部显示
  * Created by lenovo on 2017/4/13.
  */
 
@@ -27,17 +29,11 @@ public class SelectPicPopupWindow extends PopupWindow {
         btn_take_photo = (Button) mMenuView.findViewById(R.id.cela_button_zhaoxiang);
         btn_pick_photo = (Button) mMenuView.findViewById(R.id.cela_button_xiangce);
         btn_cancel = (Button) mMenuView.findViewById(R.id.cela_button_puxiao);
-        //取消按钮
-        btn_cancel.setOnClickListener(new View.OnClickListener() {
 
-            public void onClick(View v) {
-                //销毁弹出框
-                dismiss();
-            }
-        });
         //设置按钮监听
         btn_pick_photo.setOnClickListener(itemsOnClick);
         btn_take_photo.setOnClickListener(itemsOnClick);
+        btn_cancel.setOnClickListener(itemsOnClick);
         //设置SelectPicPopupWindow的View
         this.setContentView(mMenuView);
         //设置SelectPicPopupWindow弹出窗体的宽
@@ -49,9 +45,9 @@ public class SelectPicPopupWindow extends PopupWindow {
         //设置SelectPicPopupWindow弹出窗体动画效果
         this.setAnimationStyle(R.style.take_photo_anim);
         //实例化一个ColorDrawable颜色为半透明
-//        ColorDrawable dw = new ColorDrawable(0xb0000000);
+        ColorDrawable dw = new ColorDrawable(0xb0000000);
         //设置SelectPicPopupWindow弹出窗体的背景
-//        this.setBackgroundDrawable(dw);
+        this.setBackgroundDrawable(dw);
         //mMenuView添加OnTouchListener监听判断获取触屏位置如果在选择框外面则销毁弹出框
         mMenuView.setOnTouchListener(new View.OnTouchListener() {
 

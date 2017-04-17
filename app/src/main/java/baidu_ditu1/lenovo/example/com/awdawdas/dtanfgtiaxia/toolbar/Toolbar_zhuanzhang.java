@@ -82,7 +82,6 @@ public class Toolbar_zhuanzhang extends Toolbar {
 
             //如果要显示searchView的时候
             if (isShowSearchView) {
-
                 hideTitleView();
             }
             //资源的回收

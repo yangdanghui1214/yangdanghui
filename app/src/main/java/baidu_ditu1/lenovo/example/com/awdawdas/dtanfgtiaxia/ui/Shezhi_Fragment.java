@@ -141,7 +141,7 @@ public class Shezhi_Fragment extends Fragment {
                     }
 
                     selectPicPopupWindow.dismiss();
-                    setBackgroundAlpha(0.5f);
+                    setBackgroundAlpha(1f);
                     break;
                 case R.id.cela_button_xiangce:
 
@@ -150,11 +150,11 @@ public class Shezhi_Fragment extends Fragment {
                     startActivityForResult(intent1, 1);
 
                     selectPicPopupWindow.dismiss();
-                    setBackgroundAlpha(0.5f);
+                    setBackgroundAlpha(1f);
                     break;
                 case R.id.cela_button_puxiao:
                     selectPicPopupWindow.dismiss();
-                    setBackgroundAlpha(0.5f);
+                    setBackgroundAlpha(1f);
                     break;
             }
 
